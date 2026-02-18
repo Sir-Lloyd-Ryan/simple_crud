@@ -1,7 +1,9 @@
 <?php
-include 'components/pdo.php';
 
-$error = "";
+include 'components/pdo.php';
+require 'auth.php';
+
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     
     if (empty($_POST["firstname"]) || empty($_POST["lastname"])) {

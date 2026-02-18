@@ -1,85 +1,49 @@
 <?php
-echo "Name: Juan Dela Cruz<br>";
-echo "Today is: " . date("F d, Y");
+session_start();
+$loggedInUser = $_SESSION["user"] ?? "";
 ?>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UserCore Landing Page</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-10 col-lg-8">
+        <div class="card shadow-sm border-0">
+          <div class="card-body p-4 p-md-5">
+            <h1 class="h3 mb-3">Welcome to UserCore</h1>
+            <p class="text-muted mb-4">Your user management landing page.</p>
 
-<?php
-$username = "admin";
-$role = "admin";
-$loginAttempts = 2;
+            <?php if ($loggedInUser !== ""): ?>
+              <div class="alert alert-success">
+                Logged in as <strong><?php echo htmlspecialchars($loggedInUser, ENT_QUOTES, "UTF-8"); ?></strong>.
+              </div>
+            <?php else: ?>
+              <div class="alert alert-secondary">
+                You are not logged in.
+              </div>
+            <?php endif; ?>
 
-echo "Username: $username<br>";
-echo "Role: $role<br>";
-echo "Login Attempts: $loginAttempts<br><br>";
-
-if ($loginAttempts < 3) {
-    echo "Access allowed";
-} else {
-    echo "Access blocked";
-}
-?>
-
-<?php
-for ($i = 1; $i <= 3; $i++) {
-    echo "Login attempt #$i<br>";
-}
-?>
-
-<?php
-$user = [
-    "username" => "admin",
-    "role" => "admin",
-    "status" => "active"
-];
-
-echo "Username: " . $user["username"] . "<br>";
-echo "Role: " . $user["role"] . "<br>";
-echo "Status: " . $user["status"];
-?>
-
-
-<?php
-$user = [
-    "username" => "admin",
-    "status" => "active"
-];
-
-if ($user["status"] === "active") {
-    echo "User can login";
-} else {
-    echo "User is blocked";
-}
-?>
-
-
-<?php
-$users = [
-    ["username" => "admin", "role" => "admin"],
-    ["username" => "ana", "role" => "user"],
-    ["username" => "ben", "role" => "user"]
-];
-
-foreach ($users as $user) {
-    echo "User: " . $user["username"] . " (" . $user["role"] . ")<br>";
-}
-?>
-
-
-<?php
-$users = [
-    ["username" => "admin", "role" => "admin"],
-    ["username" => "ana", "role" => "user"],
-    ["username" => "ben", "role" => "user"]
-];
-
-foreach ($users as $user) {
-    if ($user["role"] === "admin") {
-        echo "User: " . $user["username"] . " (ADMIN ACCESS)<br>";
-    } else {
-        echo "User: " . $user["username"] . " (USER)<br>";
-    }
-}
-?>
-
-
-
+            <div class="d-flex flex-wrap gap-2">
+              <?php if ($loggedInUser === ""): ?>
+                <a href="login.php" class="btn btn-primary">Login</a>
+              <?php else: ?>
+                <a href="logout.php" class="btn btn-outline-danger">Logout</a>
+              <?php endif; ?>
+              <a href="view.php" class="btn btn-outline-secondary">View Users</a>
+              <a href="add.php" class="btn btn-outline-secondary">Add User</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+y>
+</html>

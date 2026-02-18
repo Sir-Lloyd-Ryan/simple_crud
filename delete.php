@@ -1,13 +1,36 @@
 <?php
-include 'components/pdo.php';
+include "components/pdo.php";
 
-$sql = "DELETE FROM users WHERE id = ?";
-$stmt = $pdo->prepare($sql);
+if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+    header("Location: view.php?status=invalid_request");
+    exit;
+}
 
-$id = 3; // change this to the id you want to delete
+$action = $_POST["action"] ?? "";
 
+if ($action === "delete_all") {
+    $stmt = $pdo->prepare("DELETE FROM users");
+    $stmt->execute();
+
+    header("Location: view.php?status=all_deleted");
+    exit;
+}
+
+$id = filter_input(INPUT_POST, "id", FILTER_VALIDATE_INT);
+
+if (!$id) {
+    header("Location: view.php?status=invalid_id");
+    exit;
+}
+
+$stmt = $pdo->prepare("DELETE FROM users WHERE id = ?");
 $stmt->execute([$id]);
 
-echo "Deleted rows: " . $stmt->rowCount();
+if ($stmt->rowCount() > 0) {
+    header("Location: view.php?status=deleted");
+    exit;
+}
 
+header("Location: view.php?status=not_found");
+exit;
 ?>
